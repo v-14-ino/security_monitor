@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { FileText, Download, Target } from 'lucide-react';
 
 const API_BASE = 'http://127.0.0.1:8000/api';

@@ -1,6 +1,6 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { useSearchParams } from 'react-router-dom';
-import { Play, RotateCw, AlertCircle, Clock, Shield, Target, Activity, AlertTriangle, ShieldAlert, Crosshair, CheckCircle, Database, Search, Zap } from 'lucide-react';
+import { Play, RotateCw, AlertCircle, Shield, Target, Activity, ShieldAlert, Crosshair, CheckCircle, Search, Zap } from 'lucide-react';
 import { PieChart, Pie, Cell, ResponsiveContainer, Tooltip } from 'recharts';
 
 const API_BASE = 'http://127.0.0.1:8000/api';
@@ -13,7 +13,6 @@ const Dashboard = () => {
   const [scanResult, setScanResult] = useState<any>(null);
   const [error, setError] = useState<string | null>(null);
   const [loadingStage, setLoadingStage] = useState<string>('');
-  const [initialLoading, setInitialLoading] = useState<boolean>(true);
 
   useEffect(() => {
     const fetchAssessment = async () => {
@@ -109,11 +108,10 @@ const Dashboard = () => {
     const srv = s.service || 'UNKNOWN';
     servicesMap[srv] = (servicesMap[srv] || 0) + 1;
   });
-  const attackSurfaceData = Object.keys(servicesMap).map(k => ({
-    name: k, value: servicesMap[k]
-  }));
   const COLORS = ['#EF4444', '#F97316', '#F59E0B', '#3B82F6', '#94A3B8'];
-  attackSurfaceData.forEach((d, i) => d.color = COLORS[i % COLORS.length]);
+  const attackSurfaceData = Object.keys(servicesMap).map((k, i) => ({
+    name: k, value: servicesMap[k], color: COLORS[i % COLORS.length]
+  }));
 
   // Defense calculations
   const controlCoverage = defense.control_coverage;
@@ -441,7 +439,7 @@ const Dashboard = () => {
                         <ResponsiveContainer width="100%" height="100%">
                           <PieChart>
                             <Pie data={monitoringPriorities} cx="50%" cy="50%" innerRadius={45} outerRadius={65} paddingAngle={5} dataKey="value" stroke="none">
-                              {monitoringPriorities.map((entry, index) => <Cell key={`cell-${index}`} fill={entry.color as string} />)}
+                              {monitoringPriorities.map((entry: any, index: number) => <Cell key={`cell-${index}`} fill={entry.color as string} />)}
                             </Pie>
                             <Tooltip contentStyle={{ backgroundColor: '#0A1628', borderColor: '#1E40AF', color: '#F8FAFC' }} />
                           </PieChart>
