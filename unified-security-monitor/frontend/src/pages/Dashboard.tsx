@@ -128,28 +128,28 @@ const Dashboard = () => {
   const recommendations = defense.recommendations || [];
 
   return (
-    <div className="space-y-6 pb-12">
+    <div className="space-y-6 pb-12 transition-colors duration-300">
       {/* Top Assessment Control */}
-      <div className="bg-[#091827] border border-[#1A4263] rounded-xl p-6 shadow-[0_0_18px_rgba(14,82,140,0.10)] relative z-10">
+      <div className="bg-white dark:bg-[#091827] border border-[#E2E8F0] dark:border-[#1A4263] rounded-xl p-6 shadow-sm dark:shadow-[0_0_18px_rgba(14,82,140,0.10)] relative z-10 transition-colors duration-300">
         <div className="flex flex-col md:flex-row gap-4 items-end">
           <div className="flex-1">
-            <label className="block text-xs font-medium text-[#8FB0C9] mb-1.5 uppercase tracking-wider">Target IP / Domain</label>
+            <label className="block text-xs font-medium text-[#64748B] dark:text-[#8FB0C9] mb-1.5 uppercase tracking-wider transition-colors duration-300">Target IP / Domain</label>
             <input 
               type="text" 
               value={target}
               onChange={(e) => setTarget(e.target.value)}
-              className="w-full bg-[#07121F] border border-[#234A69] rounded-lg px-4 py-3 text-[#F8FAFC] placeholder-[#607A91] focus:outline-none focus:border-[#1689D8] focus:ring-1 focus:ring-[#1689D8] focus:shadow-[0_0_12px_rgba(22,137,216,0.25)] transition-all"
+              className="w-full bg-slate-50 dark:bg-[#07121F] border border-[#E2E8F0] dark:border-[#234A69] rounded-lg px-4 py-3 text-[#0F172A] dark:text-[#F8FAFC] placeholder-[#94A3B8] dark:placeholder-[#607A91] focus:outline-none focus:border-[#2563EB] dark:focus:border-[#1689D8] focus:ring-1 focus:ring-[#2563EB] dark:focus:ring-[#1689D8] focus:shadow-sm dark:focus:shadow-[0_0_12px_rgba(22,137,216,0.25)] transition-all duration-300"
               placeholder="Target IP / Domain"
               disabled={isScanning}
             />
           </div>
           <div className="w-48">
-            <label className="block text-xs font-medium text-[#8FB0C9] mb-1.5 uppercase tracking-wider">Scan Mode</label>
+            <label className="block text-xs font-medium text-[#64748B] dark:text-[#8FB0C9] mb-1.5 uppercase tracking-wider transition-colors duration-300">Scan Mode</label>
             <select 
               value={scanMode}
               onChange={(e) => setScanMode(e.target.value)}
               disabled={isScanning}
-              className="w-full bg-[#07121F] border border-[#234A69] rounded-lg px-4 py-3 text-[#F8FAFC] focus:outline-none focus:border-[#1689D8] focus:ring-1 focus:ring-[#1689D8] focus:shadow-[0_0_12px_rgba(22,137,216,0.25)] appearance-none transition-all"
+              className="w-full bg-slate-50 dark:bg-[#07121F] border border-[#E2E8F0] dark:border-[#234A69] rounded-lg px-4 py-3 text-[#0F172A] dark:text-[#F8FAFC] focus:outline-none focus:border-[#2563EB] dark:focus:border-[#1689D8] focus:ring-1 focus:ring-[#2563EB] dark:focus:ring-[#1689D8] focus:shadow-sm dark:focus:shadow-[0_0_12px_rgba(22,137,216,0.25)] appearance-none transition-all duration-300"
             >
               <option value="quick">Quick Scan</option>
               <option value="full">Full Scan</option>
@@ -183,10 +183,10 @@ const Dashboard = () => {
       </div>
 
       {!scanResult && !isScanning && !error && (
-        <div className="flex flex-col items-center justify-center py-32 text-[#64748B] border border-[#1E293B] rounded-xl bg-[#0D1525] border-dashed shadow-[0_8px_30px_rgba(0,0,0,0.2)]">
-          <Target size={64} className="mb-6 text-[#1E293B]" />
-          <h2 className="text-2xl font-medium text-[#F8FAFC] mb-3">No Assessment Data</h2>
-          <p className="text-[#94A3B8] max-w-md text-center">Enter a target and start an assessment to view attack surface, risks, findings and defensive recommendations.</p>
+        <div className="flex flex-col items-center justify-center py-32 text-[#64748B] border border-[#E2E8F0] dark:border-[#1E293B] rounded-xl bg-slate-50 dark:bg-[#0D1525] border-dashed shadow-sm dark:shadow-[0_8px_30px_rgba(0,0,0,0.2)] transition-colors duration-300">
+          <Target size={64} className="mb-6 text-slate-300 dark:text-[#1E293B] transition-colors duration-300" />
+          <h2 className="text-2xl font-medium text-[#0F172A] dark:text-[#F8FAFC] mb-3 transition-colors duration-300">No Assessment Data</h2>
+          <p className="text-[#64748B] dark:text-[#94A3B8] max-w-md text-center transition-colors duration-300">Enter a target and start an assessment to view attack surface, risks, findings and defensive recommendations.</p>
         </div>
       )}
 
@@ -210,15 +210,15 @@ const Dashboard = () => {
             
             {/* LEFT PANEL - OFFENSE */}
             {/* LEFT PANEL - OFFENSE */}
-            <div className="bg-[#120B10] border border-[#B91C1C] shadow-[0_0_18px_rgba(239,68,68,0.10)] rounded-xl overflow-hidden relative">
-              <div className="p-5 border-b border-[#7F1D1D] bg-[#180C11] flex justify-between items-center">
+            <div className="bg-white dark:bg-[#120B10] border border-red-200 dark:border-[#B91C1C] shadow-sm dark:shadow-[0_0_18px_rgba(239,68,68,0.10)] rounded-xl overflow-hidden relative transition-colors duration-300">
+              <div className="p-5 border-b border-red-200 dark:border-[#7F1D1D] bg-red-50 dark:bg-[#180C11] flex justify-between items-center transition-colors duration-300">
                 <div>
-                  <h2 className="text-xl font-bold text-[#FF4D55] flex items-center gap-2">
-                    <Crosshair size={20} className="text-[#FF3B43]" /> OFFENSE
+                  <h2 className="text-xl font-bold text-red-600 dark:text-[#FF4D55] flex items-center gap-2 transition-colors duration-300">
+                    <Crosshair size={20} className="text-red-500 dark:text-[#FF3B43]" /> OFFENSE
                   </h2>
-                  <p className="text-xs text-[#A98B93] mt-1">What could potentially happen?</p>
+                  <p className="text-xs text-red-400 dark:text-[#A98B93] mt-1 transition-colors duration-300">What could potentially happen?</p>
                 </div>
-                <div className="text-[10px] uppercase tracking-wider px-2 py-1 bg-[#3A1018] text-[#FF8A91] rounded border border-[#9F1D2E] font-semibold">
+                <div className="text-[10px] uppercase tracking-wider px-2 py-1 bg-red-100 dark:bg-[#3A1018] text-red-700 dark:text-[#FF8A91] rounded border border-red-200 dark:border-[#9F1D2E] font-semibold transition-colors duration-300">
                   Attacker Perspective
                 </div>
               </div>
@@ -226,8 +226,8 @@ const Dashboard = () => {
               <div className="p-6 space-y-6">
                 <div className="grid grid-cols-2 gap-6">
                   {/* Risk Distribution */}
-                  <div className="bg-[#160C11] p-4 rounded-lg border border-[#54202A] shadow-sm">
-                    <h3 className="text-xs font-semibold text-[#F8FAFC] mb-4 tracking-wider uppercase text-center">Risk Distribution</h3>
+                  <div className="bg-slate-50 dark:bg-[#160C11] p-4 rounded-lg border border-red-100 dark:border-[#54202A] shadow-sm transition-colors duration-300">
+                    <h3 className="text-xs font-semibold text-[#0F172A] dark:text-[#F8FAFC] mb-4 tracking-wider uppercase text-center transition-colors duration-300">Risk Distribution</h3>
                     <div className="h-40 relative">
                       {riskData.length > 0 ? (
                         <ResponsiveContainer width="100%" height="100%">
@@ -242,15 +242,15 @@ const Dashboard = () => {
                         <div className="flex items-center justify-center h-full"></div>
                       )}
                       <div className="absolute inset-0 flex flex-col items-center justify-center pointer-events-none">
-                        <span className="text-2xl font-bold text-[#FFFFFF]">{cves.length}</span>
-                        <span className="text-[10px] font-medium text-[#91A3B5] uppercase">Vulns</span>
+                        <span className="text-2xl font-bold text-[#0F172A] dark:text-[#FFFFFF] transition-colors duration-300">{cves.length}</span>
+                        <span className="text-[10px] font-medium text-[#64748B] dark:text-[#91A3B5] uppercase transition-colors duration-300">Vulns</span>
                       </div>
                     </div>
                   </div>
 
                   {/* Attack Surface */}
-                  <div className="bg-[#160C11] p-4 rounded-lg border border-[#54202A] shadow-sm">
-                    <h3 className="text-xs font-semibold text-[#F8FAFC] mb-4 tracking-wider uppercase text-center">Attack Surface (Services)</h3>
+                  <div className="bg-slate-50 dark:bg-[#160C11] p-4 rounded-lg border border-red-100 dark:border-[#54202A] shadow-sm transition-colors duration-300">
+                    <h3 className="text-xs font-semibold text-[#0F172A] dark:text-[#F8FAFC] mb-4 tracking-wider uppercase text-center transition-colors duration-300">Attack Surface (Services)</h3>
                     <div className="h-40 relative">
                       {attackSurfaceData.length > 0 ? (
                         <ResponsiveContainer width="100%" height="100%">
@@ -265,8 +265,8 @@ const Dashboard = () => {
                         <div className="flex items-center justify-center h-full"></div>
                       )}
                       <div className="absolute inset-0 flex flex-col items-center justify-center pointer-events-none">
-                        <span className="text-2xl font-bold text-[#FFFFFF]">{Object.keys(servicesMap).length}</span>
-                        <span className="text-[10px] font-medium text-[#91A3B5] uppercase">Services</span>
+                        <span className="text-2xl font-bold text-[#0F172A] dark:text-[#FFFFFF] transition-colors duration-300">{Object.keys(servicesMap).length}</span>
+                        <span className="text-[10px] font-medium text-[#64748B] dark:text-[#91A3B5] uppercase transition-colors duration-300">Services</span>
                       </div>
                     </div>
                   </div>
@@ -395,15 +395,15 @@ const Dashboard = () => {
             </div>
 
             {/* RIGHT PANEL - DEFENSE */}
-            <div className="bg-[#071522] border border-[#1685C7] shadow-[0_0_18px_rgba(14,165,233,0.10)] rounded-xl overflow-hidden relative">
-              <div className="p-5 border-b border-[#155E85] bg-[#091C2C] flex justify-between items-center">
+            <div className="bg-white dark:bg-[#071522] border border-blue-200 dark:border-[#1685C7] shadow-sm dark:shadow-[0_0_18px_rgba(14,165,233,0.10)] rounded-xl overflow-hidden relative transition-colors duration-300">
+              <div className="p-5 border-b border-blue-200 dark:border-[#155E85] bg-blue-50 dark:bg-[#091C2C] flex justify-between items-center transition-colors duration-300">
                 <div>
-                  <h2 className="text-xl font-bold text-[#29B6F6] flex items-center gap-2">
-                    <Shield size={20} className="text-[#38BDF8]" /> DEFENSE
+                  <h2 className="text-xl font-bold text-blue-600 dark:text-[#29B6F6] flex items-center gap-2 transition-colors duration-300">
+                    <Shield size={20} className="text-blue-500 dark:text-[#38BDF8]" /> DEFENSE
                   </h2>
-                  <p className="text-xs text-[#8EAFC6] mt-1">How to monitor, prevent and respond?</p>
+                  <p className="text-xs text-blue-400 dark:text-[#8EAFC6] mt-1 transition-colors duration-300">How to monitor, prevent and respond?</p>
                 </div>
-                <div className="text-[10px] uppercase tracking-wider px-2 py-1 bg-[#082D45] text-[#67D7FF] rounded border border-[#12658D] font-semibold">
+                <div className="text-[10px] uppercase tracking-wider px-2 py-1 bg-blue-100 dark:bg-[#082D45] text-blue-700 dark:text-[#67D7FF] rounded border border-blue-200 dark:border-[#12658D] font-semibold transition-colors duration-300">
                   Defender Perspective
                 </div>
               </div>
@@ -411,8 +411,8 @@ const Dashboard = () => {
               <div className="p-6 space-y-6">
                 <div className="grid grid-cols-2 gap-6">
                   {/* Control Coverage */}
-                  <div className="bg-[#0A1A29] p-4 rounded-lg border border-[#164562] shadow-sm">
-                    <h3 className="text-xs font-semibold text-[#F8FAFC] mb-4 tracking-wider uppercase text-center">Control Coverage</h3>
+                  <div className="bg-slate-50 dark:bg-[#0A1A29] p-4 rounded-lg border border-blue-100 dark:border-[#164562] shadow-sm transition-colors duration-300">
+                    <h3 className="text-xs font-semibold text-[#0F172A] dark:text-[#F8FAFC] mb-4 tracking-wider uppercase text-center transition-colors duration-300">Control Coverage</h3>
                     <div className="h-40 relative">
                       <ResponsiveContainer width="100%" height="100%">
                         <PieChart>
@@ -423,15 +423,15 @@ const Dashboard = () => {
                         </PieChart>
                       </ResponsiveContainer>
                       <div className="absolute inset-0 flex flex-col items-center justify-center pointer-events-none">
-                        <span className="text-2xl font-bold text-[#FFFFFF]">{controlCoverage}%</span>
-                        <span className="text-[10px] font-medium text-[#8EAFC6] uppercase">Coverage</span>
+                        <span className="text-2xl font-bold text-[#0F172A] dark:text-[#FFFFFF] transition-colors duration-300">{controlCoverage}%</span>
+                        <span className="text-[10px] font-medium text-[#64748B] dark:text-[#8EAFC6] uppercase transition-colors duration-300">Coverage</span>
                       </div>
                     </div>
                   </div>
 
                   {/* Monitoring Priority */}
-                  <div className="bg-[#0A1A29] p-4 rounded-lg border border-[#164562] shadow-sm">
-                    <h3 className="text-xs font-semibold text-[#F8FAFC] mb-4 tracking-wider uppercase text-center">Monitoring Priority</h3>
+                  <div className="bg-slate-50 dark:bg-[#0A1A29] p-4 rounded-lg border border-blue-100 dark:border-[#164562] shadow-sm transition-colors duration-300">
+                    <h3 className="text-xs font-semibold text-[#0F172A] dark:text-[#F8FAFC] mb-4 tracking-wider uppercase text-center transition-colors duration-300">Monitoring Priority</h3>
                     <div className="h-40 relative">
                       {monitoringPriorities.length > 0 ? (
                         <ResponsiveContainer width="100%" height="100%">
@@ -443,10 +443,10 @@ const Dashboard = () => {
                           </PieChart>
                         </ResponsiveContainer>
                       ) : (
-                        <div className="flex items-center justify-center h-full text-[#64748B] text-sm">No priority areas</div>
+                        <div className="flex items-center justify-center h-full text-[#64748B] text-sm transition-colors duration-300">No priority areas</div>
                       )}
                       <div className="absolute inset-0 flex flex-col items-center justify-center pointer-events-none">
-                        <Activity size={24} className="text-[#8EAFC6]" />
+                        <Activity size={24} className="text-[#64748B] dark:text-[#8EAFC6] transition-colors duration-300" />
                       </div>
                     </div>
                   </div>
@@ -518,13 +518,10 @@ const Dashboard = () => {
   );
 };
 
-const MetricCard = ({ title, value, color = "#8FA6BD", colSpan = "col-span-1" }: { title: string, value: string | number, color?: string, colSpan?: string }) => (
-  <div className={`bg-[#0A1828] border border-[#173A55] rounded-lg p-4 shadow-sm ${colSpan} flex flex-col justify-center transition-all hover:border-[#2196D3]`}>
-    <div className="text-[10px] font-bold uppercase tracking-wider mb-2 flex items-center gap-1.5" style={{ color: '#8FA6BD' }}>
-      <div className="w-2 h-2 rounded-full shadow-[0_0_8px_currentColor]" style={{ backgroundColor: color, color }}></div>
-      {title}
-    </div>
-    <div className="text-2xl font-bold text-[#F8FAFC] truncate" title={String(value)}>{value}</div>
+const MetricCard = ({ title, value, color, colSpan = "col-span-1" }: { title: string, value: string | number, color: string, colSpan?: string }) => (
+  <div className={`${colSpan} bg-white dark:bg-[#0A1828] border border-[#E2E8F0] dark:border-[#1A3652] rounded-lg p-4 flex flex-col justify-center shadow-sm transition-colors duration-300`}>
+    <div className="text-[10px] text-[#64748B] dark:text-[#8FB0C9] font-bold uppercase tracking-widest mb-1 transition-colors duration-300">{title}</div>
+    <div className="text-2xl font-bold" style={{ color }}>{value}</div>
   </div>
 );
 
