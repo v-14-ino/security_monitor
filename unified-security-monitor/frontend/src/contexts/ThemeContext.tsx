@@ -18,13 +18,11 @@ export const ThemeProvider: React.FC<{ children: React.ReactNode }> = ({ childre
   useEffect(() => {
     const root = window.document.documentElement;
     
-    root.classList.remove('light', 'dark');
-    
     if (theme === 'system') {
       const systemTheme = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
-      root.classList.add(systemTheme);
+      root.setAttribute('data-theme', systemTheme);
     } else {
-      root.classList.add(theme);
+      root.setAttribute('data-theme', theme);
     }
 
     localStorage.setItem('theme', theme);
@@ -36,8 +34,7 @@ export const ThemeProvider: React.FC<{ children: React.ReactNode }> = ({ childre
       const mediaQuery = window.matchMedia('(prefers-color-scheme: dark)');
       const handleChange = () => {
         const root = window.document.documentElement;
-        root.classList.remove('light', 'dark');
-        root.classList.add(mediaQuery.matches ? 'dark' : 'light');
+        root.setAttribute('data-theme', mediaQuery.matches ? 'dark' : 'light');
       };
       
       mediaQuery.addEventListener('change', handleChange);

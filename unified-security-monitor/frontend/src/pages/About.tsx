@@ -4,7 +4,7 @@ import { Shield, Search, Target, Lock, Server, Terminal, Crosshair, AlertTriangl
 const About: React.FC = () => {
   return (
     <div className="max-w-6xl mx-auto space-y-8 pb-12 transition-colors duration-300">
-      <div className="bg-white dark:bg-[#091827] border border-[#E2E8F0] dark:border-[#1A4263] rounded-xl p-8 shadow-sm dark:shadow-[0_0_18px_rgba(14,82,140,0.10)] relative overflow-hidden transition-colors duration-300">
+      <div className="bg-[var(--bg-panel)] bg-[var(--bg-header)] border border-[#E2E8F0] border-[var(--border-primary)] rounded-xl p-8 shadow-sm shadow-sm relative overflow-hidden transition-colors duration-300">
         <div className="absolute top-0 right-0 w-64 h-64 bg-blue-500/5 rounded-full blur-3xl -mr-20 -mt-20 pointer-events-none"></div>
         
         <div className="flex items-center gap-4 mb-6">
@@ -12,20 +12,20 @@ const About: React.FC = () => {
             <Shield size={24} />
           </div>
           <div>
-            <h1 className="text-2xl font-bold text-[#0F172A] dark:text-[#F8FAFC] transition-colors duration-300">Unified Security Monitor</h1>
-            <p className="text-sm text-[#64748B] dark:text-[#8FA6BD] mt-1 uppercase tracking-widest font-medium transition-colors duration-300">Enterprise SOC Dashboard & Assessment Platform</p>
+            <h1 className="text-2xl font-bold text-[var(--text-primary)] text-[var(--text-primary)] transition-colors duration-300">Unified Security Monitor</h1>
+            <p className="text-sm text-[var(--text-secondary)] text-[var(--text-secondary)] mt-1 uppercase tracking-widest font-medium transition-colors duration-300">Enterprise SOC Dashboard & Assessment Platform</p>
           </div>
         </div>
         
-        <p className="text-[#64748B] dark:text-[#A8BBCB] leading-relaxed max-w-3xl transition-colors duration-300">
+        <p className="text-[var(--text-secondary)] dark:text-[#A8BBCB] leading-relaxed max-w-3xl transition-colors duration-300">
           Security Monitor is a premium, dual-perspective cybersecurity assessment tool designed to simulate adversary perspectives while providing actionable defender playbooks. By bridging the gap between offensive exposure and defensive controls, it provides a holistic view of your attack surface.
         </p>
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
         {/* Core Capabilities */}
-        <div className="bg-slate-50 dark:bg-[#071522] border border-[#E2E8F0] dark:border-[#164562] rounded-xl p-6 shadow-sm transition-colors duration-300">
-          <h2 className="text-sm font-bold text-[#0F172A] dark:text-[#60C7FF] mb-6 flex items-center gap-2 border-b border-[#E2E8F0] dark:border-[#164562] pb-3 uppercase tracking-wider transition-colors duration-300">
+        <div className="bg-[var(--bg-card)] dark:bg-[#071522] border border-[#E2E8F0] dark:border-[#164562] rounded-xl p-6 shadow-sm transition-colors duration-300">
+          <h2 className="text-sm font-bold text-[var(--text-primary)] dark:text-[#60C7FF] mb-6 flex items-center gap-2 border-b border-[#E2E8F0] dark:border-[#164562] pb-3 uppercase tracking-wider transition-colors duration-300">
             <Target size={18} /> Core Capabilities
           </h2>
           <div className="space-y-4">
@@ -37,8 +37,8 @@ const About: React.FC = () => {
         </div>
 
         {/* Technology Stack */}
-        <div className="bg-slate-50 dark:bg-[#071522] border border-[#E2E8F0] dark:border-[#164562] rounded-xl p-6 shadow-sm transition-colors duration-300">
-          <h2 className="text-sm font-bold text-[#0F172A] dark:text-[#60C7FF] mb-6 flex items-center gap-2 border-b border-[#E2E8F0] dark:border-[#164562] pb-3 uppercase tracking-wider transition-colors duration-300">
+        <div className="bg-[var(--bg-card)] dark:bg-[#071522] border border-[#E2E8F0] dark:border-[#164562] rounded-xl p-6 shadow-sm transition-colors duration-300">
+          <h2 className="text-sm font-bold text-[var(--text-primary)] dark:text-[#60C7FF] mb-6 flex items-center gap-2 border-b border-[#E2E8F0] dark:border-[#164562] pb-3 uppercase tracking-wider transition-colors duration-300">
             <Server size={18} /> Technology Stack
           </h2>
           <div className="grid grid-cols-2 gap-4">
@@ -49,8 +49,8 @@ const About: React.FC = () => {
       </div>
 
       {/* Dual Perspective Architecture */}
-      <div className="bg-white dark:bg-[#091827] border border-[#E2E8F0] dark:border-[#1A4263] rounded-xl p-8 shadow-sm transition-colors duration-300">
-        <h2 className="text-lg font-bold text-[#0F172A] dark:text-[#F8FAFC] mb-6 uppercase tracking-wider transition-colors duration-300">Dual Perspective Architecture</h2>
+      <div className="bg-[var(--bg-panel)] bg-[var(--bg-header)] border border-[#E2E8F0] border-[var(--border-primary)] rounded-xl p-8 shadow-sm transition-colors duration-300">
+        <h2 className="text-lg font-bold text-[var(--text-primary)] text-[var(--text-primary)] mb-6 uppercase tracking-wider transition-colors duration-300">Dual Perspective Architecture</h2>
         
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           <div className="bg-red-50 dark:bg-[#120B10] p-6 rounded-lg border border-red-200 dark:border-[#9F1D2E] transition-colors duration-300">
@@ -96,18 +96,18 @@ const FeatureRow = ({ icon, title, desc }: { icon: React.ReactNode, title: strin
   <div className="flex items-start gap-3">
     <div className="mt-0.5 text-[#2563EB] dark:text-[#38BDF8]">{icon}</div>
     <div>
-      <div className="text-sm font-bold text-[#0F172A] dark:text-[#F8FAFC]">{title}</div>
-      <div className="text-xs text-[#64748B] dark:text-[#8EAFC6] mt-0.5">{desc}</div>
+      <div className="text-sm font-bold text-[var(--text-primary)] text-[var(--text-primary)]">{title}</div>
+      <div className="text-xs text-[var(--text-secondary)] dark:text-[#8EAFC6] mt-0.5">{desc}</div>
     </div>
   </div>
 );
 
 const TechCard = ({ title, items }: { title: string, items: string[] }) => (
-  <div className="bg-white dark:bg-[#0A1A29] p-4 rounded-lg border border-[#E2E8F0] dark:border-[#1A3652]">
-    <div className="text-xs font-bold text-[#0F172A] dark:text-[#8EAFC6] mb-3 uppercase tracking-wider">{title}</div>
+  <div className="bg-[var(--bg-panel)] dark:bg-[#0A1A29] p-4 rounded-lg border border-[#E2E8F0] dark:border-[#1A3652]">
+    <div className="text-xs font-bold text-[var(--text-primary)] dark:text-[#8EAFC6] mb-3 uppercase tracking-wider">{title}</div>
     <ul className="space-y-1.5">
       {items.map((item, i) => (
-        <li key={i} className="text-xs text-[#64748B] dark:text-[#F8FAFC] flex items-center gap-2">
+        <li key={i} className="text-xs text-[var(--text-secondary)] text-[var(--text-primary)] flex items-center gap-2">
           <Terminal size={10} className="text-[#2563EB] dark:text-[#38BDF8]"/> {item}
         </li>
       ))}

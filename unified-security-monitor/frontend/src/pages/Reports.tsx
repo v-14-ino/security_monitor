@@ -50,8 +50,8 @@ const Reports = () => {
         <h2 className="text-xl font-semibold text-slate-900">Security Reports</h2>
       </div>
 
-      <div className="bg-white border border-slate-200 rounded-xl overflow-hidden shadow-sm">
-        <div className="p-5 border-b border-slate-200 flex justify-between items-center bg-slate-50">
+      <div className="bg-[var(--bg-panel)] border border-[var(--border-primary)] rounded-xl overflow-hidden shadow-sm">
+        <div className="p-5 border-b border-[var(--border-primary)] flex justify-between items-center bg-[var(--bg-card)]">
           <h3 className="text-sm font-semibold text-slate-700 tracking-wide">Available Reports</h3>
           <span className="text-xs bg-slate-200 text-slate-600 px-2 py-1 rounded font-medium">
             {scans.length} available
@@ -66,7 +66,7 @@ const Reports = () => {
         ) : (
           <div className="overflow-x-auto">
             <table className="w-full text-left text-sm text-slate-700">
-              <thead className="text-xs uppercase bg-slate-50 border-b border-slate-200 text-slate-500">
+              <thead className="text-xs uppercase bg-[var(--bg-card)] border-b border-[var(--border-primary)] text-slate-500">
                 <tr>
                   <th className="px-6 py-4 font-semibold">Report Target</th>
                   <th className="px-6 py-4 font-semibold">Scan ID</th>
@@ -77,7 +77,7 @@ const Reports = () => {
               </thead>
               <tbody className="divide-y divide-slate-100">
                 {scans.map((scan, idx) => (
-                  <tr key={idx} className="hover:bg-slate-50 transition-colors">
+                  <tr key={idx} className="hover:bg-[var(--bg-card)] transition-colors">
                     <td className="px-6 py-4 font-medium text-slate-900 flex items-center gap-2">
                       <FileText size={16} className="text-slate-500" />
                       {scan.target} Assessment
@@ -95,7 +95,7 @@ const Reports = () => {
                       <button 
                         onClick={() => handleDownload(scan.scan_id, scan.target)}
                         disabled={isDownloading === scan.scan_id}
-                        className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-medium bg-white hover:bg-slate-50 text-slate-700 transition-colors border border-slate-300 disabled:opacity-50 shadow-sm"
+                        className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-medium bg-[var(--bg-panel)] hover:bg-[var(--bg-card)] text-slate-700 transition-colors border border-slate-300 disabled:opacity-50 shadow-sm"
                       >
                         <Download size={14} /> 
                         {isDownloading === scan.scan_id ? 'Generating...' : 'Download PDF'}

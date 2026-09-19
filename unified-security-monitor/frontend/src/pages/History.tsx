@@ -17,13 +17,13 @@ const History = () => {
     <div className="space-y-6">
       <div className="flex items-center gap-3 mb-6">
         <Shield className="text-blue-600 dark:text-blue-400" size={24} />
-        <h2 className="text-xl font-semibold text-slate-900 dark:text-[#F8FAFC]">Scan History</h2>
+        <h2 className="text-xl font-semibold text-slate-900 text-[var(--text-primary)]">Scan History</h2>
       </div>
 
-      <div className="bg-white dark:bg-[#071321] border border-slate-200 dark:border-[#18314A] rounded-xl overflow-hidden shadow-sm transition-colors duration-300">
-        <div className="p-5 border-b border-slate-200 dark:border-[#18314A] flex justify-between items-center bg-slate-50 dark:bg-[#06101D] transition-colors duration-300">
-          <h3 className="text-sm font-semibold text-slate-700 dark:text-[#F8FAFC] tracking-wide">Previous Assessments</h3>
-          <span className="text-xs bg-slate-200 dark:bg-[#102A46] text-slate-600 dark:text-[#8FA6BD] px-2 py-1 rounded font-medium transition-colors duration-300">
+      <div className="bg-[var(--bg-panel)] bg-[var(--bg-header)] border border-[var(--border-primary)] border-[var(--border-primary)] rounded-xl overflow-hidden shadow-sm transition-colors duration-300">
+        <div className="p-5 border-b border-[var(--border-primary)] border-[var(--border-primary)] flex justify-between items-center bg-[var(--bg-card)] bg-[var(--bg-body)] transition-colors duration-300">
+          <h3 className="text-sm font-semibold text-slate-700 text-[var(--text-primary)] tracking-wide">Previous Assessments</h3>
+          <span className="text-xs bg-slate-200 dark:bg-[#102A46] text-slate-600 text-[var(--text-secondary)] px-2 py-1 rounded font-medium transition-colors duration-300">
             {scans.length} records
           </span>
         </div>
@@ -35,8 +35,8 @@ const History = () => {
           </div>
         ) : (
           <div className="overflow-x-auto">
-            <table className="w-full text-left text-sm text-[#475569]">
-              <thead className="text-xs uppercase bg-[#F8FAFC] dark:bg-[#06101D] border-b border-[#E2E8F0] dark:border-[#18314A] text-[#475569] dark:text-[#8FA6BD] transition-colors duration-300">
+            <table className="w-full text-left text-sm text-[var(--text-secondary)]">
+              <thead className="text-xs uppercase bg-[var(--table-header)] bg-[var(--bg-body)] border-b border-[#E2E8F0] border-[var(--border-primary)] text-[var(--text-secondary)] text-[var(--text-secondary)] transition-colors duration-300">
                 <tr>
                   <th className="px-6 py-4 font-semibold">Scan ID</th>
                   <th className="px-6 py-4 font-semibold">Target</th>
@@ -48,29 +48,29 @@ const History = () => {
                   <th className="px-6 py-4 font-semibold">Actions</th>
                 </tr>
               </thead>
-              <tbody className="divide-y divide-[#E2E8F0] dark:divide-[#18314A] bg-[#FFFFFF] dark:bg-[#071321] transition-colors duration-300">
+              <tbody className="divide-y divide-[var(--grid-border)] divide-[var(--grid-border)] bg-[var(--table-body)] bg-[var(--bg-header)] transition-colors duration-300">
                 {scans.map((scan, idx) => (
-                  <tr key={idx} className="hover:bg-[#F1F5F9] dark:hover:bg-[#102A46] transition-colors duration-300">
+                  <tr key={idx} className="hover:bg-[var(--table-header)] hover:bg-[var(--table-header)] transition-colors duration-300">
                     <td className="px-6 py-4">
-                      <div className="font-mono text-xs text-[#475569] dark:text-[#8FA6BD]">{scan.scan_id.substring(0, 8)}...</div>
+                      <div className="font-mono text-xs text-[var(--text-secondary)] text-[var(--text-secondary)]">{scan.scan_id.substring(0, 8)}...</div>
                     </td>
-                    <td className="px-6 py-4 font-medium text-[#0F172A] dark:text-[#F8FAFC]">
+                    <td className="px-6 py-4 font-medium text-[var(--text-primary)] text-[var(--text-primary)]">
                       {scan.target}
                     </td>
-                    <td className="px-6 py-4 text-xs text-[#475569] dark:text-[#8FA6BD]">
+                    <td className="px-6 py-4 text-xs text-[var(--text-secondary)] text-[var(--text-secondary)]">
                       {new Date(scan.scan_time).toLocaleString()}
                     </td>
-                    <td className="px-6 py-4 uppercase text-[10px] font-semibold text-[#475569] dark:text-[#8FA6BD]">
+                    <td className="px-6 py-4 uppercase text-[10px] font-semibold text-[var(--text-secondary)] text-[var(--text-secondary)]">
                       {scan.scan_mode}
                     </td>
-                    <td className="px-6 py-4 text-[#0F172A] dark:text-[#F8FAFC] font-medium">
+                    <td className="px-6 py-4 text-[var(--text-primary)] text-[var(--text-primary)] font-medium">
                       {scan.ports}
                     </td>
                     <td className="px-6 py-4">
                       {scan.vulnerabilities > 0 ? (
                          <span className="text-orange-600 dark:text-orange-400 font-bold">{scan.vulnerabilities}</span>
                       ) : (
-                         <span className="text-[#475569] dark:text-[#8FA6BD]">0</span>
+                         <span className="text-[var(--text-secondary)] text-[var(--text-secondary)]">0</span>
                       )}
                     </td>
                     <td className="px-6 py-4">
