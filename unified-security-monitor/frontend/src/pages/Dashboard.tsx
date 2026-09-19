@@ -40,8 +40,6 @@ const Dashboard = () => {
       } catch (e) {
         console.error(e);
         setError('Connection error loading assessment.');
-      } finally {
-        setInitialLoading(false);
       }
     };
 
