@@ -116,11 +116,13 @@ def scan_target(target, scan_mode="full"):
     try:
         # -sT: TCP connect scan (works without root/admin privileges)
         # -sV: probe open ports to determine service/version info
+        # -Pn: skip ICMP/host-discovery probes; useful on cloud hosts where
+        # ICMP discovery may be filtered even when TCP ports are reachable.
         # -T4: aggressive timing for faster results
         args = (
-            "-sT -sV --top-ports 100 -T4"
+            "-Pn -sT -sV --top-ports 100 -T4"
             if scan_mode == "quick"
-            else "-sT -sV --top-ports 1000 -T4"
+            else "-Pn -sT -sV --top-ports 1000 -T4"
         )
         scanner.scan(hosts=target, arguments=args)
     except nmap.PortScannerError as e:
