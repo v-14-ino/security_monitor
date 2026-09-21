@@ -3,7 +3,7 @@ import { useSearchParams } from 'react-router-dom';
 import { Play, RotateCw, AlertCircle, Shield, Target, Activity, ShieldAlert, Crosshair, CheckCircle, Search, Zap } from 'lucide-react';
 import { PieChart, Pie, Cell, ResponsiveContainer, Tooltip } from 'recharts';
 
-const API_BASE = 'http://127.0.0.1:8000/api';
+const API_BASE = `${import.meta.env.VITE_API_URL || 'http://127.0.0.1:8000'}/api`;
 
 const Dashboard = () => {
   const [searchParams, setSearchParams] = useSearchParams();
