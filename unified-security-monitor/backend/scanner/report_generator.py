@@ -132,20 +132,20 @@ class _EnterpriseReportTemplate(SimpleDocTemplate):
 def _get_styles():
     styles = getSampleStyleSheet()
 
-    styles.add(ParagraphStyle("CoverTitle", parent=styles["Title"], fontSize=28, leading=34, textColor=PRIMARY_BRAND, spaceAfter=8, alignment=TA_CENTER, fontName="Helvetica-Bold"))
-    styles.add(ParagraphStyle("CoverSubtitle", parent=styles["Normal"], fontSize=16, leading=20, textColor=MUTED_TEXT, spaceAfter=40, alignment=TA_CENTER, fontName="Helvetica"))
-    styles.add(ParagraphStyle("CoverDesc", parent=styles["Normal"], fontSize=11, leading=16, textColor=DARK_TEXT, spaceBefore=40, spaceAfter=40, alignment=TA_CENTER, fontName="Helvetica-Oblique"))
+    styles.add(ParagraphStyle("AppCoverTitle", parent=styles["Title"], fontSize=28, leading=34, textColor=PRIMARY_BRAND, spaceAfter=8, alignment=TA_CENTER, fontName="Helvetica-Bold"))
+    styles.add(ParagraphStyle("AppCoverSubtitle", parent=styles["Normal"], fontSize=16, leading=20, textColor=MUTED_TEXT, spaceAfter=40, alignment=TA_CENTER, fontName="Helvetica"))
+    styles.add(ParagraphStyle("AppCoverDesc", parent=styles["Normal"], fontSize=11, leading=16, textColor=DARK_TEXT, spaceBefore=40, spaceAfter=40, alignment=TA_CENTER, fontName="Helvetica-Oblique"))
     
-    styles.add(ParagraphStyle("SectionHead", parent=styles["Heading2"], fontSize=16, leading=20, textColor=PRIMARY_BRAND, spaceBefore=24, spaceAfter=12, fontName="Helvetica-Bold", borderPadding=4, backColor=SECONDARY_BG))
-    styles.add(ParagraphStyle("SubHead", parent=styles["Heading3"], fontSize=12, leading=16, textColor=HEADER_BG, spaceBefore=12, spaceAfter=6, fontName="Helvetica-Bold"))
+    styles.add(ParagraphStyle("AppSectionHead", parent=styles["Heading2"], fontSize=16, leading=20, textColor=PRIMARY_BRAND, spaceBefore=24, spaceAfter=12, fontName="Helvetica-Bold", borderPadding=4, backColor=SECONDARY_BG))
+    styles.add(ParagraphStyle("AppSubHead", parent=styles["Heading3"], fontSize=12, leading=16, textColor=HEADER_BG, spaceBefore=12, spaceAfter=6, fontName="Helvetica-Bold"))
     
-    styles.add(ParagraphStyle("BodyText", parent=styles["Normal"], fontSize=9, leading=14, textColor=DARK_TEXT))
-    styles.add(ParagraphStyle("BodyBold", parent=styles["Normal"], fontSize=9, leading=14, textColor=DARK_TEXT, fontName="Helvetica-Bold"))
+    styles.add(ParagraphStyle("AppBodyText", parent=styles["Normal"], fontSize=9, leading=14, textColor=DARK_TEXT))
+    styles.add(ParagraphStyle("AppBodyBold", parent=styles["Normal"], fontSize=9, leading=14, textColor=DARK_TEXT, fontName="Helvetica-Bold"))
     
-    styles.add(ParagraphStyle("CellText", parent=styles["Normal"], fontSize=8, leading=11, textColor=DARK_TEXT))
-    styles.add(ParagraphStyle("CellBold", parent=styles["Normal"], fontSize=8, leading=11, textColor=WHITE, fontName="Helvetica-Bold", alignment=TA_CENTER))
+    styles.add(ParagraphStyle("AppCellText", parent=styles["Normal"], fontSize=8, leading=11, textColor=DARK_TEXT))
+    styles.add(ParagraphStyle("AppCellBold", parent=styles["Normal"], fontSize=8, leading=11, textColor=WHITE, fontName="Helvetica-Bold", alignment=TA_CENTER))
     
-    styles.add(ParagraphStyle("Badge", parent=styles["Normal"], fontSize=8, leading=10, textColor=WHITE, fontName="Helvetica-Bold", alignment=TA_CENTER))
+    styles.add(ParagraphStyle("AppBadge", parent=styles["Normal"], fontSize=8, leading=10, textColor=WHITE, fontName="Helvetica-Bold", alignment=TA_CENTER))
 
     return styles
 
@@ -154,11 +154,11 @@ def _get_styles():
 def _build_table(headers, rows, col_widths=None):
     """Build a styled enterprise table."""
     styles = _get_styles()
-    header_paras = [Paragraph(f"<b>{h}</b>", styles["CellBold"]) for h in headers]
+    header_paras = [Paragraph(f"<b>{h}</b>", styles["AppCellBold"]) for h in headers]
 
     formatted_rows = []
     for row in rows:
-        formatted_rows.append([Paragraph(str(cell), styles["CellText"]) if not isinstance(cell, Paragraph) else cell for cell in row])
+        formatted_rows.append([Paragraph(str(cell), styles["AppCellText"]) if not isinstance(cell, Paragraph) else cell for cell in row])
 
     data = [header_paras] + formatted_rows
     table = Table(data, colWidths=col_widths, repeatRows=1)
@@ -186,7 +186,7 @@ def _kv_table(pairs, styles, width="100%"):
     """Build a clean key-value table for properties."""
     rows = []
     for k, v in pairs:
-        rows.append([Paragraph(f"<b>{k}</b>", styles["BodyText"]), Paragraph(str(v), styles["BodyText"])])
+        rows.append([Paragraph(f"<b>{k}</b>", styles["AppBodyText"]), Paragraph(str(v), styles["AppBodyText"])])
     
     t = Table(rows, colWidths=["35%", "65%"])
     t.setStyle(TableStyle([
@@ -198,12 +198,12 @@ def _kv_table(pairs, styles, width="100%"):
 
 def _colored_badge(text, color):
     """Return a Paragraph styled as a colored badge."""
-    return Paragraph(f'<font color="white"><b> {text} </b></font>', ParagraphStyle("Badge", backColor=color, borderPadding=2))
+    return Paragraph(f'<font color="white"><b> {text} </b></font>', ParagraphStyle("AppBadge", backColor=color, borderPadding=2))
 
 def _status_icon(condition, true_text="✔ Yes", false_text="❌ No", true_color=RISK_COLORS["Low"], false_color=RISK_COLORS["High"]):
     if condition:
-        return Paragraph(f'<font color="{true_color}"><b>{true_text}</b></font>', _get_styles()["BodyText"])
-    return Paragraph(f'<font color="{false_color}"><b>{false_text}</b></font>', _get_styles()["BodyText"])
+        return Paragraph(f'<font color="{true_color}"><b>{true_text}</b></font>', _get_styles()["AppBodyText"])
+    return Paragraph(f'<font color="{false_color}"><b>{false_text}</b></font>', _get_styles()["AppBodyText"])
 
 
 # ══════════════════════════════════════════════════════
@@ -264,10 +264,10 @@ def generate_pdf_report(scan_data, scan_time=None):
 
     # ── PAGE 1: COVER PAGE ─────────────────────────────
     elements.append(Spacer(1, 40 * mm))
-    elements.append(Paragraph("🛡 Vulnerability Scanner", styles["CoverTitle"]))
-    elements.append(Paragraph("Professional Security Assessment Report", styles["CoverSubtitle"]))
+    elements.append(Paragraph("🛡 Vulnerability Scanner", styles["AppCoverTitle"]))
+    elements.append(Paragraph("Professional Security Assessment Report", styles["AppCoverSubtitle"]))
     
-    elements.append(Paragraph(f"This report summarizes the findings of an automated vulnerability assessment performed using the Vulnerability Scanner platform against the target infrastructure.", styles["CoverDesc"]))
+    elements.append(Paragraph(f"This report summarizes the findings of an automated vulnerability assessment performed using the Vulnerability Scanner platform against the target infrastructure.", styles["AppCoverDesc"]))
     
     cover_data = [
         ("Target", target),
@@ -283,17 +283,17 @@ def generate_pdf_report(scan_data, scan_time=None):
 
 
     # ── PAGE 2: EXECUTIVE SUMMARY ──────────────────────
-    elements.append(Paragraph("1. Executive Summary", styles["SectionHead"]))
+    elements.append(Paragraph("1. Executive Summary", styles["AppSectionHead"]))
     
     # Dashboard summary block via Table
     summary_data = [
         ["Open Ports", "Services", "Software", "Total CVEs", "Score"],
         [
-            Paragraph(f'<b><font size=18>{len(ports)}</font></b>', styles["CoverSubtitle"]),
-            Paragraph(f'<b><font size=18>{len(set(p.get("service") for p in ports if p.get("service")))}</font></b>', styles["CoverSubtitle"]),
-            Paragraph(f'<b><font size=18>{va.get("summary", {}).get("total", 0)}</font></b>', styles["CoverSubtitle"]),
-            Paragraph(f'<b><font size=18 color="{RISK_COLORS["High"]}">{cve.get("summary", {}).get("total_cves", 0)}</font></b>', styles["CoverSubtitle"]),
-            Paragraph(f'<b><font size=18 color="{PRIMARY_BRAND}">{score} / 100</font></b>', styles["CoverSubtitle"]),
+            Paragraph(f'<b><font size=18>{len(ports)}</font></b>', styles["AppCoverSubtitle"]),
+            Paragraph(f'<b><font size=18>{len(set(p.get("service") for p in ports if p.get("service")))}</font></b>', styles["AppCoverSubtitle"]),
+            Paragraph(f'<b><font size=18>{va.get("summary", {}).get("total", 0)}</font></b>', styles["AppCoverSubtitle"]),
+            Paragraph(f'<b><font size=18 color="{RISK_COLORS["High"]}">{cve.get("summary", {}).get("total_cves", 0)}</font></b>', styles["AppCoverSubtitle"]),
+            Paragraph(f'<b><font size=18 color="{PRIMARY_BRAND}">{score} / 100</font></b>', styles["AppCoverSubtitle"]),
         ]
     ]
     t = Table(summary_data, colWidths=[usable_width/5]*5)
@@ -310,7 +310,7 @@ def generate_pdf_report(scan_data, scan_time=None):
 
 
     # ── 2. PORT SCAN SECTION ───────────────────────────
-    elements.append(Paragraph("2. Port Scan Results", styles["SectionHead"]))
+    elements.append(Paragraph("2. Port Scan Results", styles["AppSectionHead"]))
     if ports:
         va_map = {a["product"]: a for a in va.get("assessments", [])}
         headers = ["Port", "State", "Service", "Product", "Version", "Latest", "Status", "Risk"]
@@ -330,11 +330,11 @@ def generate_pdf_report(scan_data, scan_time=None):
         col_w = [usable_width * 0.08, usable_width * 0.1, usable_width * 0.1, usable_width * 0.2, usable_width * 0.12, usable_width * 0.12, usable_width * 0.14, usable_width * 0.14]
         elements.append(_build_table(headers, rows, col_w))
     else:
-        elements.append(Paragraph("No open ports detected.", styles["BodyText"]))
+        elements.append(Paragraph("No open ports detected.", styles["AppBodyText"]))
 
 
     # ── 3. WEB SECURITY SECTION ────────────────────────
-    elements.append(Paragraph("3. Web Security Analysis", styles["SectionHead"]))
+    elements.append(Paragraph("3. Web Security Analysis", styles["AppSectionHead"]))
     if web:
         sec_pairs = [
             ("HTTPS Available", _status_icon(web.get("https_available"), "✔ Enabled", "❌ Not Enabled")),
@@ -346,26 +346,26 @@ def generate_pdf_report(scan_data, scan_time=None):
         
         headers_dict = web.get("headers", {})
         if headers_dict:
-            elements.append(Paragraph("Security Headers Validation", styles["SubHead"]))
+            elements.append(Paragraph("Security Headers Validation", styles["AppSubHead"]))
             h_rows = []
             for h_name, h_val in headers_dict.items():
                 h_rows.append([
-                    Paragraph(h_name, styles["BodyText"]),
+                    Paragraph(h_name, styles["AppBodyText"]),
                     _status_icon(h_val != "Missing", "✔ Present", "❌ Missing")
                 ])
             elements.append(_build_table(["Header", "Status"], h_rows, [usable_width*0.7, usable_width*0.3]))
     else:
-        elements.append(Paragraph("Web security analysis not applicable or not performed.", styles["BodyText"]))
+        elements.append(Paragraph("Web security analysis not applicable or not performed.", styles["AppBodyText"]))
 
 
     # ── 4. SOFTWARE ASSESSMENT ─────────────────────────
-    elements.append(Paragraph("4. Software Assessment", styles["SectionHead"]))
+    elements.append(Paragraph("4. Software Assessment", styles["AppSectionHead"]))
     assessments = va.get("assessments", [])
     if assessments:
         sa_rows = []
         for a in assessments:
             sa_rows.append([
-                Paragraph(a.get("product", ""), styles["BodyBold"]),
+                Paragraph(a.get("product", ""), styles["AppBodyBold"]),
                 a.get("detected_version", ""),
                 a.get("latest_version", ""),
                 a.get("minimum_secure", ""),
@@ -373,22 +373,22 @@ def generate_pdf_report(scan_data, scan_time=None):
             ])
         elements.append(_build_table(["Product", "Detected", "Latest", "Min Secure", "Status"], sa_rows, [usable_width*0.25, usable_width*0.15, usable_width*0.15, usable_width*0.2, usable_width*0.25]))
     else:
-        elements.append(Paragraph("No software assessment data available.", styles["BodyText"]))
+        elements.append(Paragraph("No software assessment data available.", styles["AppBodyText"]))
 
 
     # ── 5. CVE ANALYSIS ────────────────────────────────
     elements.append(PageBreak())
-    elements.append(Paragraph("5. CVE Analysis", styles["SectionHead"]))
+    elements.append(Paragraph("5. CVE Analysis", styles["AppSectionHead"]))
     findings = cve.get("findings", [])
     if findings:
         for finding in findings:
-            elements.append(Paragraph(f"Product: {finding.get('product')} v{finding.get('version')}", styles["SubHead"]))
+            elements.append(Paragraph(f"Product: {finding.get('product')} v{finding.get('version')}", styles["AppSubHead"]))
             for c in finding.get("cves", []):
                 sev = c.get("severity", "Unknown")
                 cve_data = [
-                    ["CVE ID", Paragraph(c.get("id", ""), styles["BodyBold"]), "Severity", _colored_badge(sev, SEV_COLORS.get(sev, MUTED_TEXT))],
-                    ["Description", Paragraph(c.get("description", ""), styles["BodyText"]), "", ""],
-                    ["Recommendation", Paragraph(c.get("recommendation", ""), styles["BodyText"]), "", ""]
+                    ["CVE ID", Paragraph(c.get("id", ""), styles["AppBodyBold"]), "Severity", _colored_badge(sev, SEV_COLORS.get(sev, MUTED_TEXT))],
+                    ["Description", Paragraph(c.get("description", ""), styles["AppBodyText"]), "", ""],
+                    ["Recommendation", Paragraph(c.get("recommendation", ""), styles["AppBodyText"]), "", ""]
                 ]
                 t = Table(cve_data, colWidths=[usable_width*0.2, usable_width*0.4, usable_width*0.15, usable_width*0.25])
                 t.setStyle(TableStyle([
@@ -404,17 +404,17 @@ def generate_pdf_report(scan_data, scan_time=None):
                 elements.append(KeepTogether(t))
                 elements.append(Spacer(1, 5*mm))
     else:
-        elements.append(Paragraph("No known CVEs found for the detected software versions.", styles["BodyText"]))
+        elements.append(Paragraph("No known CVEs found for the detected software versions.", styles["AppBodyText"]))
 
 
     # ── 6. RECOMMENDATIONS ─────────────────────────────
     elements.append(PageBreak())
-    elements.append(Paragraph("6. Remediation Recommendations", styles["SectionHead"]))
+    elements.append(Paragraph("6. Remediation Recommendations", styles["AppSectionHead"]))
     recs = va.get("recommendations", [])
     if recs:
         for rec in recs:
             # Simple boxing for recommendations
-            r_t = Table([[Paragraph(f"💡 <b>Action Required:</b> {rec}", styles["BodyText"])]], colWidths=[usable_width])
+            r_t = Table([[Paragraph(f"💡 <b>Action Required:</b> {rec}", styles["AppBodyText"])]], colWidths=[usable_width])
             r_t.setStyle(TableStyle([
                 ("BACKGROUND", (0,0), (-1,-1), colors.HexColor("#EFF6FF")), # Light blue
                 ("BOX", (0,0), (-1,-1), 1, colors.HexColor("#BFDBFE")),
@@ -423,17 +423,66 @@ def generate_pdf_report(scan_data, scan_time=None):
             elements.append(KeepTogether(r_t))
             elements.append(Spacer(1, 3*mm))
     else:
-        elements.append(Paragraph("No specific recommendations at this time.", styles["BodyText"]))
+        elements.append(Paragraph("No specific recommendations at this time.", styles["AppBodyText"]))
 
 
-    # ── 7. FINAL SUMMARY ───────────────────────────────
-    elements.append(Paragraph("7. Assessment Summary", styles["SectionHead"]))
+    # ── 7. OFFENSE / ATTACK SCENARIOS ──────────────────
+    elements.append(PageBreak())
+    elements.append(Paragraph("7. Offense / Simulated Attack Scenarios", styles["AppSectionHead"]))
+    offense = scan_data.get("offense", {})
+    scenarios = offense.get("scenarios", [])
+    if scenarios:
+        for sc in scenarios:
+            sc_data = [
+                ["Scenario", Paragraph(sc.get("name", "Unknown"), styles["AppBodyBold"])],
+                ["Likelihood", Paragraph(sc.get("likelihood", "Unknown"), styles["AppBodyText"])],
+                ["Impact", Paragraph(sc.get("impact", "Unknown"), styles["AppBodyText"])],
+                ["Description", Paragraph(sc.get("description", "Unknown"), styles["AppBodyText"])]
+            ]
+            t = Table(sc_data, colWidths=[usable_width*0.2, usable_width*0.8])
+            t.setStyle(TableStyle([
+                ("VALIGN", (0,0), (-1,-1), "TOP"),
+                ("BACKGROUND", (0,0), (0,-1), SECONDARY_BG),
+                ("BOX", (0,0), (-1,-1), 1, LIGHT_GRAY),
+                ("GRID", (0,0), (-1,-1), 0.5, LIGHT_GRAY),
+            ]))
+            elements.append(KeepTogether(t))
+            elements.append(Spacer(1, 5*mm))
+    else:
+        elements.append(Paragraph("No simulated attack scenarios generated.", styles["AppBodyText"]))
+
+    # ── 8. DEFENSE / MONITORING PLAYBOOKS ──────────────
+    elements.append(PageBreak())
+    elements.append(Paragraph("8. Defense / Monitoring Playbooks", styles["AppSectionHead"]))
+    defense = scan_data.get("defense", {})
+    playbooks = defense.get("playbooks", [])
+    if playbooks:
+        for pb in playbooks:
+            pb_data = [
+                ["Playbook", Paragraph(pb.get("name", "Unknown"), styles["AppBodyBold"])],
+                ["Action", Paragraph(pb.get("action", "Unknown"), styles["AppBodyText"])],
+                ["Priority", Paragraph(pb.get("priority", "Unknown"), styles["AppBodyText"])]
+            ]
+            t = Table(pb_data, colWidths=[usable_width*0.2, usable_width*0.8])
+            t.setStyle(TableStyle([
+                ("VALIGN", (0,0), (-1,-1), "TOP"),
+                ("BACKGROUND", (0,0), (0,-1), SECONDARY_BG),
+                ("BOX", (0,0), (-1,-1), 1, LIGHT_GRAY),
+                ("GRID", (0,0), (-1,-1), 0.5, LIGHT_GRAY),
+            ]))
+            elements.append(KeepTogether(t))
+            elements.append(Spacer(1, 5*mm))
+    else:
+        elements.append(Paragraph("No monitoring playbooks generated.", styles["AppBodyText"]))
+
+    # ── 9. FINAL SUMMARY ───────────────────────────────
+    elements.append(Paragraph("9. Assessment Summary", styles["AppSectionHead"]))
     
     summary_message = "The assessed target appears secure with no immediate issues identified."
     if overall_risk in ["High", "Medium"]:
         summary_message = "The assessed target contains issues that should be addressed. Immediate remediation of High and Critical findings is strongly recommended."
 
-    elements.append(Paragraph(summary_message, ParagraphStyle("SummaryMsg", parent=styles["BodyText"], spaceAfter=15)))
+    elements.append(Paragraph(summary_message, ParagraphStyle("SummaryMsg", parent=styles["AppBodyText"], spaceAfter=15)))
 
     final_pairs = [
         ("Target", target),

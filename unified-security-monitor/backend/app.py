@@ -270,7 +270,10 @@ def report_pdf():
             mimetype="application/pdf",
         )
     except Exception as e:
-        return jsonify({"error": f"PDF generation failed: {str(e)}"}), 500
+        import traceback
+        traceback.print_exc()
+        print(f"PDF generation failed: {str(e)}")
+        return jsonify({"error": "PDF generation failed. Please check the backend report service."}), 500
 
 if __name__ == "__main__":
     # Ensure reports directory exists

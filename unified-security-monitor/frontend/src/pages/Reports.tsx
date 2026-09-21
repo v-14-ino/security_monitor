@@ -25,7 +25,7 @@ const Reports = () => {
         body: JSON.stringify({ scan_id: scanId })
       });
       
-      if (!res.ok) throw new Error('Failed to generate report');
+      if (!res.ok) throw new Error('PDF generation failed. Please check the backend report service.');
       
       const blob = await res.blob();
       const url = window.URL.createObjectURL(blob);
@@ -35,9 +35,9 @@ const Reports = () => {
       document.body.appendChild(a);
       a.click();
       a.remove();
-    } catch (e) {
+    } catch (e: any) {
       console.error('Download error:', e);
-      alert('Failed to download PDF report.');
+      alert(e.message || 'PDF generation failed. Please check the backend report service.');
     } finally {
       setIsDownloading(null);
     }
