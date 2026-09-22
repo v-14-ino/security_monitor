@@ -98,13 +98,11 @@ def scan_target(target, scan_mode="full"):
     """
     Scan a target (IP or domain) for open TCP ports using Nmap.
 
-    Args:
-        target (str): The IP address or domain name to scan.
-        scan_mode (str): 'full' (top 1000 ports) or 'quick' (top 100 ports).
+    Quick:
+        50 common TCP ports, then service detection only on open ports.
 
-    Returns:
-        dict: A dictionary with 'target' and 'ports' keys on success,
-              or 'error' key on failure.
+    Full:
+        300 common TCP ports, then service detection only on open ports.
     """
     try:
         scanner = get_scanner()
@@ -114,49 +112,81 @@ def scan_target(target, scan_mode="full"):
         return {"error": f"Nmap execution failed: {str(e)}"}
 
     try:
-        # -sT: TCP connect scan (works without root/admin privileges)
-        # -sV: probe open ports to determine service/version info
-        # -Pn: skip ICMP/host-discovery probes; useful on cloud hosts where
-        # ICMP discovery may be filtered even when TCP ports are reachable.
-        # -T4: aggressive timing for faster results
-        args = (
-            "-Pn -sT -sV --top-ports 100 -T4"
-            if scan_mode == "quick"
-            else "-Pn -sT -sV --top-ports 1000 -T4"
-        )
-        scanner.scan(hosts=target, arguments=args)
+        # Stage 1: Fast TCP port discovery.
+        # -Pn  = skip host discovery
+        # -sT  = TCP connect scan
+        # -T4  = faster timing
+        # No -sV here; version detection is done only on discovered open ports.
+        port_count = 50 if scan_mode == "quick" else 300
+
+        discovery_args = f"-Pn -sT --top-ports {port_count} -T4"
+        scanner.scan(hosts=target, arguments=discovery_args)
+
     except nmap.PortScannerError as e:
         return {"error": f"Nmap execution failed: {str(e)}"}
     except Exception as e:
-        return {"error": f"Nmap execution failed: An unexpected error occurred: {str(e)}"}
+        return {
+            "error": f"Nmap execution failed: An unexpected error occurred: {str(e)}"
+        }
 
-    # Check if any hosts were found
     hosts = scanner.all_hosts()
+
     if not hosts:
         return {
             "error": f"Host '{target}' is unreachable or could not be resolved. "
-                     "Please check the IP address or domain name."
+                      "Please check the IP address or domain name."
         }
 
     host = hosts[0]
+
+    # Extract only open TCP ports from discovery scan.
+    open_port_numbers = []
+
+    if "tcp" in scanner[host]:
+        for port_number, port_data in scanner[host]["tcp"].items():
+            if port_data.get("state") == "open":
+                open_port_numbers.append(port_number)
+
+    # No open ports found.
+    if not open_port_numbers:
+        return {
+            "target": target,
+            "ports": []
+        }
+
+    # Stage 2: Service/version detection only on discovered open ports.
+    try:
+        port_list = ",".join(str(p) for p in sorted(open_port_numbers))
+
+        version_args = (
+            f"-Pn -sT -sV --version-light -T4 -p {port_list}"
+        )
+
+        scanner.scan(hosts=target, arguments=version_args)
+
+    except nmap.PortScannerError as e:
+        # Keep the port discovery result even if version detection fails.
+        version_error = str(e)
+        print(f"Service detection warning: {version_error}")
+
+    except Exception as e:
+        print(f"Service detection warning: {str(e)}")
+
     ports = []
 
-    # Extract TCP port data with service version details
     if "tcp" in scanner[host]:
         for port_number, port_data in sorted(scanner[host]["tcp"].items()):
-            ports.append({
-                "port": port_number,
-                "state": port_data.get("state", "unknown"),
-                "service": port_data.get("name", "unknown"),
-                "product": port_data.get("product", "") or "Unknown",
-                "version": port_data.get("version", "") or "Unknown",
-                "extra_info": port_data.get("extrainfo", "") or "Unknown",
-            })
-
-    # Filter to only open ports for a cleaner result
-    open_ports = [p for p in ports if p["state"] == "open"]
+            if port_data.get("state") == "open":
+                ports.append({
+                    "port": port_number,
+                    "state": port_data.get("state", "unknown"),
+                    "service": port_data.get("name", "unknown"),
+                    "product": port_data.get("product", "") or "Unknown",
+                    "version": port_data.get("version", "") or "Unknown",
+                    "extra_info": port_data.get("extrainfo", "") or "Unknown",
+                })
 
     return {
         "target": target,
-        "ports": open_ports,
+        "ports": ports,
     }
