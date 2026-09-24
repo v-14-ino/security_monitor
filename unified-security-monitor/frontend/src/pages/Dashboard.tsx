@@ -14,36 +14,54 @@ const Dashboard = () => {
   const [error, setError] = useState<string | null>(null);
   const [loadingStage, setLoadingStage] = useState<string>('');
 
-  useEffect(() => {
-    const fetchAssessment = async () => {
-      const assessmentId = searchParams.get('assessment');
-      if (!assessmentId) {
+useEffect(() => {
+
+  const fetchData = async () => {
+
+    const assessmentId = searchParams.get('assessment');
+
+    try {
+
+      let url = "";
+
+      if (assessmentId) {
+        // History view
+        url = `${API_BASE}/scans/${assessmentId}`;
+      } 
+      else {
+        // Latest scan
+        url = `${API_BASE}/scans/latest`;
+      }
+
+
+      const res = await fetch(url);
+
+
+      if (res.ok) {
+
+        const data = await res.json();
+        setScanResult(data);
+
+      } 
+      else {
+
         setScanResult(null);
-        return;
-      }
-      
-      const url = `${API_BASE}/scans/${assessmentId}`;
-        
-      try {
-        const res = await fetch(url);
-        if (res.ok) {
-          const data = await res.json();
-          setScanResult(data);
-        } else {
-          // It's okay if latest returns 404 (no scans yet)
-          if (res.status !== 404) {
-            setError('Failed to load assessment data.');
-          }
-        }
-      } catch (e) {
-        console.error(e);
-        setError('Connection error loading assessment.');
-      }
-    };
 
-    fetchAssessment();
-  }, [searchParams, setSearchParams]);
+      }
 
+    } catch(error) {
+
+      console.error(error);
+      setError("Failed to load scan data.");
+
+    }
+
+  };
+
+
+  fetchData();
+
+}, [searchParams]);
   const handleScan = async () => {
     if (!target) return;
     setIsScanning(true);
