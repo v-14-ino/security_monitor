@@ -581,7 +581,7 @@ const calculatedCoverage =
                 color="#22C55E"
               />
 
-              <<MetricCard
+              <MetricCard
                 title="TIME"
                 value={scanDuration}
                 color="#60A5FA"
