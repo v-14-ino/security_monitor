@@ -31,6 +31,7 @@ const Dashboard = () => {
   const [scanResult, setScanResult] = useState<any>(null);
   const [error, setError] = useState<string | null>(null);
   const [loadingStage, setLoadingStage] = useState<string>('');
+  const [scanDuration, setScanDuration] = useState('—');
 
   /* =========================================================
      LOAD SELECTED ASSESSMENT
@@ -70,7 +71,9 @@ const Dashboard = () => {
   ========================================================= */
 
   const handleScan = async () => {
-    if (!target) return;
+  if (!target) return;
+
+  const startTime = Date.now();
 
     setIsScanning(true);
     setError(null);
@@ -103,9 +106,25 @@ const Dashboard = () => {
           'Evaluating risk & generating dashboard...'
         );
 
-        const data = await res.json();
+   const data = await res.json();
 
-        setScanResult(data);
+// Calculate actual scan duration
+const endTime = Date.now();
+const durationSeconds = Math.round(
+  (endTime - startTime) / 1000
+);
+
+const minutes = Math.floor(durationSeconds / 60);
+const seconds = durationSeconds % 60;
+
+const formattedDuration =
+  minutes > 0
+    ? `${minutes}m ${seconds}s`
+    : `${seconds}s`;
+
+setScanDuration(formattedDuration);
+
+setScanResult(data);
 
         setSearchParams({
           assessment: data.scan_id,
@@ -562,9 +581,9 @@ const calculatedCoverage =
                 color="#22C55E"
               />
 
-              <MetricCard
+              <<MetricCard
                 title="TIME"
-                value="2m 14s"
+                value={scanDuration}
                 color="#60A5FA"
               />
 
