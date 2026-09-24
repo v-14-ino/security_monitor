@@ -16,50 +16,47 @@ const Dashboard = () => {
 
 useEffect(() => {
 
-  const fetchData = async () => {
+  const fetchAssessment = async () => {
 
     const assessmentId = searchParams.get('assessment');
 
+    if (!assessmentId) {
+      setScanResult(null);
+      return;
+    }
+
     try {
 
-      let url = "";
-
-      if (assessmentId) {
-        // History view
-        url = `${API_BASE}/scans/${assessmentId}`;
-      } 
-      else {
-        // Latest scan
-        url = `${API_BASE}/scans/latest`;
-      }
+      const res = await fetch(
+        `${API_BASE}/scans/${assessmentId}`
+      );
 
 
-      const res = await fetch(url);
-
-
-      if (res.ok) {
+      if(res.ok){
 
         const data = await res.json();
         setScanResult(data);
 
-      } 
-      else {
+      }
+      else{
 
-        setScanResult(null);
+        setError("Assessment not found");
 
       }
 
-    } catch(error) {
+
+    } catch(error){
 
       console.error(error);
-      setError("Failed to load scan data.");
+      setError("Failed to load assessment");
 
     }
 
   };
 
 
-  fetchData();
+  fetchAssessment();
+
 
 }, [searchParams]);
   const handleScan = async () => {
