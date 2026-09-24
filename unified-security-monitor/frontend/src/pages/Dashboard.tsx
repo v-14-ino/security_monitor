@@ -139,14 +139,28 @@ const Dashboard = () => {
       key_findings: [],
     };
 
-  const defense =
-    scanResult?.defense || {
-      control_coverage: 100,
-      monitoring_priority: [],
-      playbooks: [],
-      response: [],
-    };
+ const defense =
+  scanResult?.defense || {
+    control_coverage: 0,
+    monitoring_priority: [],
+    playbooks: [],
+    response: [],
+  };
+  // Calculate actual defense coverage
+const totalServices = offense.exposed_services.length;
 
+const protectedServices =
+  defense.playbooks?.length || 0;
+
+const calculatedCoverage =
+  totalServices > 0
+    ? Math.min(
+        100,
+        Math.round(
+          (protectedServices / totalServices) * 100
+        )
+      )
+    : 0;
   /* =========================================================
      CVE COUNTS
   ========================================================= */
@@ -294,8 +308,8 @@ const Dashboard = () => {
      DEFENSE CALCULATIONS
   ========================================================= */
 
-  const controlCoverage =
-    defense.control_coverage;
+ const controlCoverage =
+  calculatedCoverage;
 
   const coverageData = [
     {
