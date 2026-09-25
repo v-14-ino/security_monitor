@@ -581,7 +581,7 @@ const calculatedCoverage =
 
               <MetricCard
                 title="STATUS"
-                value="Completed"
+                value="completed"
                 color="#22C55E"
               />
 
