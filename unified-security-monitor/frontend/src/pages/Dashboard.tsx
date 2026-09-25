@@ -1732,7 +1732,7 @@ const MetricCard = ({
     </div>
 
     <div
-      className="text-2xl font-bold"
+      className="text-xl font-bold leading-tight break-words"
       style={{ color }}
     >
       {value}
