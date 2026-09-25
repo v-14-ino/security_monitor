@@ -4,6 +4,7 @@ import os
 import uuid
 import datetime
 import json
+import time
 
 # Import scanners from vulnerable_scan
 from scanner.network_scanner import scan_target
@@ -95,6 +96,7 @@ def scan():
 
     scan_id = str(uuid.uuid4())
     scan_time = datetime.datetime.now().isoformat()
+    assessment_start = time.time()
 
     # 1. Vulnerability Scan
     result = scan_target(target, scan_mode=scan_mode)
@@ -105,6 +107,11 @@ def scan():
     result["scan_mode"] = scan_mode
     result["scan_id"] = scan_id
     result["scan_time"] = scan_time
+
+    # Backend-measured end-to-end assessment duration.
+    result["scan_duration"] = round(
+        time.time() - assessment_start, 2
+    )
 
     # 2. Add offline versions and CVEs
     version_results = check_versions(result.get("ports", []))
