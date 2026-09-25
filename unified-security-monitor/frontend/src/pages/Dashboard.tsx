@@ -23,6 +23,16 @@ import {
 
 const API_BASE = `${import.meta.env.VITE_API_URL || 'http://127.0.0.1:8000'}/api`;
 
+const formatScanDuration = (duration: unknown) => {
+  const totalSeconds = Math.max(0, Math.round(Number(duration) || 0));
+  const minutes = Math.floor(totalSeconds / 60);
+  const seconds = totalSeconds % 60;
+
+  return minutes > 0
+    ? `${minutes}m ${seconds}s`
+    : `${seconds}s`;
+};
+
 const Dashboard = () => {
   const [searchParams, setSearchParams] = useSearchParams();
   const [target, setTarget] = useState('');
@@ -54,6 +64,12 @@ const Dashboard = () => {
         if (res.ok) {
           const data = await res.json();
           setScanResult(data);
+
+          if (data.scan_duration !== undefined) {
+            setScanDuration(
+              formatScanDuration(data.scan_duration)
+            );
+          }
         } else {
           setError('Assessment not found');
         }
@@ -72,8 +88,6 @@ const Dashboard = () => {
 
   const handleScan = async () => {
   if (!target) return;
-
-  const startTime = Date.now();
 
     setIsScanning(true);
     setError(null);
@@ -106,25 +120,15 @@ const Dashboard = () => {
           'Evaluating risk & generating dashboard...'
         );
 
-   const data = await res.json();
+        const data = await res.json();
 
-// Calculate actual scan duration
-const endTime = Date.now();
-const durationSeconds = Math.round(
-  (endTime - startTime) / 1000
-);
+        if (data.scan_duration !== undefined) {
+          setScanDuration(
+            formatScanDuration(data.scan_duration)
+          );
+        }
 
-const minutes = Math.floor(durationSeconds / 60);
-const seconds = durationSeconds % 60;
-
-const formattedDuration =
-  minutes > 0
-    ? `${minutes}m ${seconds}s`
-    : `${seconds}s`;
-
-setScanDuration(formattedDuration);
-
-setScanResult(data);
+        setScanResult(data);
 
         setSearchParams({
           assessment: data.scan_id,
